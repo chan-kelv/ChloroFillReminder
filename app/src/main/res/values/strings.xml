@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ChloroFillReminder</string>
+    <string name="settings_button">settings button</string>
+    <string name="upcoming_reminders">Upcoming Reminders</string>
+    <string name="add_plants">Add Plants</string>
+    <string name="see_all">See all friends</string>
 </resources>
