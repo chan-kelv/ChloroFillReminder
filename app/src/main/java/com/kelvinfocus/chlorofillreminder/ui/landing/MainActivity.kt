@@ -1,4 +1,4 @@
-package com.kelvinfocus.chlorofillreminder
+package com.kelvinfocus.chlorofillreminder.ui.landing
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
