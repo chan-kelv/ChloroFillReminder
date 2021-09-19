@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
+import com.kelvinfocus.chlorofillreminder.R
 import com.kelvinfocus.chlorofillreminder.databinding.FragmentLandingBinding
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -44,6 +46,7 @@ class LandingFragment:Fragment() {
 
         landingBinding.addPlantButton.setOnClickListener {
             Timber.d("navigate to add new plant")
+            NavHostFragment.findNavController(this).navigate(R.id.action_landingFragment_to_addPlantFragment)
         }
 
         landingBinding.reminderRecycler.setOnClickListener {

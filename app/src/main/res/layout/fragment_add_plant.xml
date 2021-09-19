@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/top_margin_guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.1" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/top_margin_guide"
+            app:srcCompat="@drawable/ic_plant"
+            android:background="@drawable/background_brown_dotted"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/plant_name_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:ems="10"
+            android:gravity="center"
+            android:hint="What's my name?"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/plant_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/water_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/plant_name_layout"
+            app:srcCompat="@drawable/ic_water_drop"
+            app:tint="@android:color/holo_blue_dark" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/water_frequency_input_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="10dp"
+            android:hint="Water plant frequency"
+            app:layout_constraintBottom_toBottomOf="@id/water_image"
+            app:layout_constraintEnd_toStartOf="@+id/water_frequency_duration"
+            app:layout_constraintStart_toEndOf="@id/water_image"
+            app:layout_constraintTop_toTopOf="@id/water_image">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/water_frequency_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:textSize="14sp"
+                android:inputType="number"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            android:id="@+id/water_frequency_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:spinnerMode="dropdown"
+            android:ems="6"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/water_frequency_input_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/water_frequency_input_layout"
+            tools:hint="Days"/>
+
+        <ImageView
+            android:id="@+id/water_alarm_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="@+id/water_frequency_input_layout"
+            app:layout_constraintTop_toBottomOf="@+id/water_frequency_input_layout"
+            app:srcCompat="@drawable/ic_alarm" />
+
+        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            android:id="@+id/water_frequency_alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:ems="5"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/water_alarm_image"
+            app:layout_constraintStart_toEndOf="@+id/water_alarm_image"
+            app:layout_constraintTop_toTopOf="@+id/water_alarm_image"
+            tools:hint="10:00 AM"/>
+
+    <!--    <ImageView-->
+    <!--        android:id="@+id/imageView2"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="24dp"-->
+    <!--        app:tint="@android:color/holo_blue_dark"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/plant_name"-->
+    <!--        app:srcCompat="@drawable/ic_water_drop" />-->
+        <ImageView
+            android:id="@+id/fertilize_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/ic_fertilize"
+            app:layout_constraintStart_toStartOf="@+id/water_image"
+            app:layout_constraintTop_toBottomOf="@+id/water_frequency_alarm" />
+
+            <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fertilize_frequency_input_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="10dp"
+            android:hint="Fertilize plant frequency"
+            app:layout_constraintBottom_toBottomOf="@+id/fertilize_image"
+            app:layout_constraintEnd_toStartOf="@+id/fertilizer_frequency_duration"
+            app:layout_constraintHorizontal_bias="0.25"
+            app:layout_constraintStart_toEndOf="@+id/fertilize_image"
+                app:layout_constraintTop_toTopOf="@+id/fertilize_image" >
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textSize="14sp"
+                    android:background="@android:color/transparent"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            android:id="@+id/fertilizer_frequency_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:spinnerMode="dropdown"
+            android:ems="6"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/fertilize_frequency_input_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fertilize_frequency_input_layout"
+            tools:hint="Days"/>
+
+        <ImageView
+            android:id="@+id/fertilizer_alarm_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="@+id/fertilize_frequency_input_layout"
+            app:layout_constraintTop_toBottomOf="@+id/fertilize_frequency_input_layout"
+            app:srcCompat="@drawable/ic_alarm" />
+
+        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            android:id="@+id/fertilizer_frequency_alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:ems="5"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/fertilizer_alarm_image"
+            app:layout_constraintStart_toEndOf="@+id/fertilizer_alarm_image"
+            app:layout_constraintTop_toTopOf="@+id/fertilizer_alarm_image"
+            tools:hint="10:00 AM"/>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/plant_notes_layout"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/background_brown_border"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="(Optional) Notes"
+            android:inputType="textMultiLine"
+            android:padding="8dp"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fertilizer_frequency_alarm" >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/plant_notes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <Button
+            android:id="@+id/save_new_plant_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:paddingStart="50dp"
+            android:paddingEnd="50dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="36dp"
+            app:layout_constraintTop_toBottomOf="@id/plant_notes_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

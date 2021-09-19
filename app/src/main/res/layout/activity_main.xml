@@ -5,7 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container_main"
-        android:name="com.kelvinfocus.chlorofillreminder.ui.landing.LandingFragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/main_nav_graph"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
