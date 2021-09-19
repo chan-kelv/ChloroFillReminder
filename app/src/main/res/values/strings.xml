@@ -4,9 +4,6 @@
     <string name="upcoming_reminders">Upcoming Reminders</string>
     <string name="add_plants">Add Plants</string>
     <string name="see_all">See all friends</string>
-
-    <string-array name="schedule_frequency">
-        <item>Day(s)</item>
-        <item>Month(s)</item>
-    </string-array>
+    <string name="no_time_unit">None</string>
+    <string name="no_alarm">No alarm</string>
 </resources>

@@ -7,12 +7,15 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.kelvinfocus.chlorofillreminder.R
 import com.kelvinfocus.chlorofillreminder.databinding.FragmentAddPlantBinding
+import com.kelvinfocus.chlorofillreminder.model.TimeFrequencyUnit
+import com.kelvinfocus.chlorofillreminder.model.TimeIntervals
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AddPlantFragment : Fragment() {
-    private lateinit var addPlantBinding: FragmentAddPlantBinding
+    private lateinit var binding: FragmentAddPlantBinding
     private lateinit var addPlantVM: AddPlantViewModel
 
     override fun onCreateView(
@@ -20,51 +23,89 @@ class AddPlantFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        addPlantBinding = FragmentAddPlantBinding.inflate(layoutInflater, container, false)
-        val view = addPlantBinding.root
+        binding = FragmentAddPlantBinding.inflate(layoutInflater, container, false)
+        val view = binding.root
 
         addPlantVM = ViewModelProvider(this).get(AddPlantViewModel::class.java)
 
-        setupView()
+        setupViewData()
         setupHandlers()
         return view
     }
 
-    private fun setupView() {
-        addPlantBinding.waterFrequencyDuration.setAdapter(ArrayAdapter<String>(
-            requireContext(),
-            android.R.layout.simple_dropdown_item_1line,
-            listOf("DAY(S)", "MONTH(S)")
-        ))
-        addPlantBinding.waterFrequencyDuration.setText("DAY(S)")
-//        addPlantBinding.waterFrequencyDuration.setSelection(1)
-        addPlantBinding.waterFrequencyAlarm.setText("10:00 AM")
-        addPlantBinding.fertilizerFrequencyAlarm.setText("10:00 PM")
-//        addPlantBinding.fertilizerFrequencyDuration.adapter =  ArrayAdapter<String>(
-//            requireContext(),
-//            android.R.layout.simple_dropdown_item_1line,
-//            listOf("DAY(S)", "MONTH(S)")
-//        )
-//        addPlantBinding.fertilizerFrequencyDuration.setSelection(0)
-//
-//        addPlantBinding.waterFrequencyAlarm.adapter = ArrayAdapter<String>(
-//            requireContext(),
-//            android.R.layout.simple_dropdown_item_1line,
-//            listOf("1:00 PM", "1:30 PM", "2 PM", "3 PM")
-//        )
-//        addPlantBinding.waterFrequencyAlarm.setSelection(3)
-//
-//        val adapter = ArrayAdapter<String>(
-//            requireContext(),
-//            android.R.layout.simple_dropdown_item_1line,
-//            listOf("1:00 PM", "1:30 PM", "2 PM", "3 PM")
-//        )
-//        addPlantBinding.fertilizerFrequencyAlarm.adapter = adapter
-//        addPlantBinding.fertilizerFrequencyAlarm.setSelection(1)
+    private fun setupViewData() {
+        setTimeFrequencyUnitSpinners()
+        setTimeIntervalSpinners()
+    }
+
+    private fun setTimeIntervalSpinners() {
+        binding.waterFrequencyAlarm.setAdapter(
+            ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                TimeIntervals.generateValidTimeIntervals()
+            )
+        )
+        binding.waterFrequencyAlarm.setHint(R.string.no_alarm)
+
+        binding.fertilizerFrequencyAlarm.setAdapter(
+            ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                TimeIntervals.generateValidTimeIntervals()
+            )
+        )
+        binding.fertilizerFrequencyAlarm.setHint(R.string.no_alarm)
+    }
+
+    private fun setTimeFrequencyUnitSpinners() {
+        val timeIntervals = TimeFrequencyUnit.getAsList()
+        binding.waterFrequencyUnit.setAdapter(
+            ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                timeIntervals
+            )
+        )
+        binding.waterFrequencyUnit.setText(timeIntervals[0])
+
+        binding.fertilizerFrequencyUnit.setAdapter(
+            ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                timeIntervals
+            )
+        )
+        binding.fertilizerFrequencyUnit.setHint(R.string.no_time_unit)
     }
 
     private fun setupHandlers() {
+        binding.saveNewPlantButton.setOnClickListener {
+            addPlantVM.newPlantValidCheck(
+                binding.waterAmountOfTimeInput.text.toString()
+            )
+        }
+        addPlantVM.waterScheduleInvalid.observe(viewLifecycleOwner) { invalidWaterFreq ->
+            if (invalidWaterFreq) {
+                binding.waterAmountOfTimeInput.error = "Invalid number"
+            }
+        }
 
+        addPlantVM.newPlantValid.observe(viewLifecycleOwner) { isValidPlant ->
+            if (isValidPlant) {
+                addPlantVM.savePlant(
+                    binding.plantPhoto,
+                    binding.plantName.text.toString(),
+                    binding.waterAmountOfTimeInput.text.toString(),
+                    binding.waterFrequencyUnit.text.toString(),
+                    binding.waterFrequencyAlarm.text.toString(),
+                    binding.fertilizeAmountOfTimesInput.text.toString(),
+                    binding.fertilizerFrequencyUnit.text.toString(),
+                    binding.fertilizerFrequencyAlarm.text.toString(),
+                    binding.plantNotes.text.toString(),
+                )
+            }
+        }
     }
 
     companion object {

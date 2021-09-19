@@ -17,7 +17,7 @@
             app:layout_constraintGuide_percent="0.1" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/plant_photo"
             android:layout_width="140dp"
             android:layout_height="140dp"
             android:padding="8dp"
@@ -40,12 +40,13 @@
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" >
+            app:layout_constraintTop_toBottomOf="@+id/plant_photo" >
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/plant_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@android:color/transparent"/>
+                android:background="@android:color/transparent"
+                android:gravity="center"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageView
@@ -67,30 +68,32 @@
             android:layout_marginEnd="10dp"
             android:hint="Water plant frequency"
             app:layout_constraintBottom_toBottomOf="@id/water_image"
-            app:layout_constraintEnd_toStartOf="@+id/water_frequency_duration"
+            app:layout_constraintEnd_toStartOf="@+id/water_frequency_unit"
             app:layout_constraintStart_toEndOf="@id/water_image"
             app:layout_constraintTop_toTopOf="@id/water_image">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/water_frequency_input"
+                android:id="@+id/water_amount_of_time_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:textSize="14sp"
                 android:inputType="number"/>
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-            android:id="@+id/water_frequency_duration"
+            android:id="@+id/water_frequency_unit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:spinnerMode="dropdown"
             android:ems="6"
+            android:minHeight="48dp"
+            android:spinnerMode="dropdown"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/water_frequency_input_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/water_frequency_input_layout"
-            tools:hint="Days"/>
+            tools:hint="Days" />
 
         <ImageView
             android:id="@+id/water_alarm_image"
@@ -106,12 +109,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:ems="5"
+            android:ems="6"
+            android:minHeight="48dp"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/water_alarm_image"
             app:layout_constraintStart_toEndOf="@+id/water_alarm_image"
             app:layout_constraintTop_toTopOf="@+id/water_alarm_image"
-            tools:hint="10:00 AM"/>
+            tools:hint="10:00 AM" />
 
     <!--    <ImageView-->
     <!--        android:id="@+id/imageView2"-->
@@ -137,31 +141,34 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="10dp"
-            android:hint="Fertilize plant frequency"
+            android:hint="(optional) Fertilize frequency"
             app:layout_constraintBottom_toBottomOf="@+id/fertilize_image"
-            app:layout_constraintEnd_toStartOf="@+id/fertilizer_frequency_duration"
+            app:layout_constraintEnd_toStartOf="@+id/fertilizer_frequency_unit"
             app:layout_constraintHorizontal_bias="0.25"
             app:layout_constraintStart_toEndOf="@+id/fertilize_image"
                 app:layout_constraintTop_toTopOf="@+id/fertilize_image" >
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fertilize_amount_of_times_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
                     android:textSize="14sp"
                     android:background="@android:color/transparent"/>
             </com.google.android.material.textfield.TextInputLayout>
+
         <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
-            android:id="@+id/fertilizer_frequency_duration"
+            android:id="@+id/fertilizer_frequency_unit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:spinnerMode="dropdown"
             android:ems="6"
+            android:minHeight="48dp"
+            android:spinnerMode="dropdown"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/fertilize_frequency_input_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/fertilize_frequency_input_layout"
-            tools:hint="Days"/>
+            tools:hint="Days" />
 
         <ImageView
             android:id="@+id/fertilizer_alarm_image"
@@ -177,12 +184,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:ems="5"
+            android:ems="6"
+            android:minHeight="48dp"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/fertilizer_alarm_image"
             app:layout_constraintStart_toEndOf="@+id/fertilizer_alarm_image"
             app:layout_constraintTop_toTopOf="@+id/fertilizer_alarm_image"
-            tools:hint="10:00 AM"/>
+            tools:hint="10:00 AM" />
 
 
         <com.google.android.material.textfield.TextInputLayout
