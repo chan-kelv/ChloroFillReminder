@@ -19,7 +19,6 @@ import com.kelvinfocus.chlorofillreminder.model.TimeFrequencyUnit
 import com.kelvinfocus.chlorofillreminder.model.TimeIntervals
 import com.kelvinfocus.chlorofillreminder.ui.plantCamera.PlantCameraActivity
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class AddPlantFragment : Fragment() {
@@ -54,7 +53,9 @@ class AddPlantFragment : Fragment() {
 
     private fun setupButtonHandlers() {
         binding.plantPhoto.setOnClickListener {
-            cameraResultsIntentListener.launch(Intent(activity, PlantCameraActivity::class.java))
+            val intent = Intent(activity, PlantCameraActivity::class.java)
+            intent.putExtra(PlantCameraActivity.CAMERA_COMPRESSION_KEY, 25)
+            cameraResultsIntentListener.launch(intent)
         }
 
         binding.saveNewPlantButton.setOnClickListener {
@@ -68,14 +69,14 @@ class AddPlantFragment : Fragment() {
         cameraResultsIntentListener = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 result.data?.let { data ->
-                    data.extras?.getString("image_data")?.let { imgString ->
+                    data.extras?.getString(PlantCameraActivity.IMAGE_KEY)?.let { imgString ->
                         val imgArray = Base64.decode(imgString, Base64.DEFAULT)
                         val imgBmp = BitmapFactory.decodeByteArray(imgArray, 0, imgArray.size)
+
                         activity?.runOnUiThread {
                             binding.plantPhoto.setImageBitmap(imgBmp)
                         }
                     }
-                    Timber.d("Data: ${data.extras?.getString("image_data")?.length ?: 0}")
                 }
             }
         }
