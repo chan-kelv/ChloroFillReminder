@@ -69,7 +69,7 @@ class AddPlantFragment : Fragment() {
         cameraResultsIntentListener = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 result.data?.let { data ->
-                    data.extras?.getString(PlantCameraActivity.IMAGE_KEY)?.let { imgString ->
+                    data.extras?.getString(PlantCameraActivity.PLANT_IMAGE_INTENT_DATA)?.let { imgString ->
                         val imgArray = Base64.decode(imgString, Base64.DEFAULT)
                         val imgBmp = BitmapFactory.decodeByteArray(imgArray, 0, imgArray.size)
 
