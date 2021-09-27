@@ -1,4 +1,4 @@
-package com.kelvinfocus.chlorofillreminder.ui
+package com.kelvinfocus.chlorofillreminder.ui.base
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

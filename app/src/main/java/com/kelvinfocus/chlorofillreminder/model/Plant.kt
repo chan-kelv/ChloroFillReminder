@@ -13,7 +13,6 @@ import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.kelvinfocus.chlorofillreminder.model.Plant.PlantDatabase.Companion.PLANT_TABLE_NAME
-import com.kelvinfocus.chlorofillreminder.model.TimeFrequencyUnit.Companion.toTimeInterval
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.parcelize.Parcelize
 
@@ -21,47 +20,27 @@ import kotlinx.parcelize.Parcelize
 class Plant(
     var name: String,
     var plantPhoto: String? = null,
-    var waterAmount: String,
-    var waterUnit: String,
+    var waterAction: CareAction,
     var waterAlarm: String?,
-    var fertilizerAmount: String?,
-    var fertilizerUnit: String?,
+    var fertilizerAction: CareAction?,
     var fertilizerAlarm: String?,
     var plantNotes: String?
 ) : Parcelable {
-    var waterCareAction: CareAction? = null
-    var fertilizeCareAction: CareAction? = null
-
-    init {
-        setWaterAmt(waterAmount, waterUnit)
-        setFertilizerAmt(fertilizerAmount, fertilizerUnit)
-    }
-
-    private fun setWaterAmt(waterAmount: String?, waterUnit: String?) {
-        val waterAmountInt = waterAmount?.toIntOrNull()
-        val waterFrequency = waterUnit?.toTimeInterval()
-        if (waterAmountInt != null && waterFrequency != null) {
-            waterCareAction = CareAction(waterAmountInt, waterFrequency)
-        }
-    }
-
-    private fun setFertilizerAmt(fertilizerAmount: String?, fertilizerUnit: String?) {
-        val fertilizeAmountInt = fertilizerAmount?.toIntOrNull()
-        val fertilizeFrequency = fertilizerUnit?.toTimeInterval()
-        if (fertilizeAmountInt != null && fertilizeFrequency != null) {
-            fertilizeCareAction = CareAction(fertilizeAmountInt, fertilizeFrequency)
-        }
-    }
 
     @Entity
     data class PlantEntity(
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "plant_name") var name: String,
-        @ColumnInfo(name = "water_freq") var waterFrequency: String?,
+        @ColumnInfo(name = "water_freq") var waterAction: String?,
         @ColumnInfo(name = "water_alarm") var waterAlarm: String?,
-        @ColumnInfo(name = "fertilize_freq") var fertilizeFrequency: String?,
+        @ColumnInfo(name = "fertilize_freq") var fertilizeAction: String?,
         @ColumnInfo(name = "fertilize_alarm") var fertilizeAlarm: String?,
         @ColumnInfo(name = "plant_notes") var notes: String?,
+        /*
+        // TODO compress to blob
+            https://stackoverflow.com/questions/37873380/how-to-reduce-image-size-into-1mb
+            https://stackoverflow.com/a/46356934
+         */
         @ColumnInfo(name = "plant_photo") var plantPhoto: String?,
     ) {
 

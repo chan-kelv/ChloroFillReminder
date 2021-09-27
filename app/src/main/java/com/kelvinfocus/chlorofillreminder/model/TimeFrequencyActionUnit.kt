@@ -1,6 +1,6 @@
 package com.kelvinfocus.chlorofillreminder.model
 
-enum class TimeFrequencyUnit(interval: String) {
+enum class TimeFrequencyActionUnit(interval: String) {
     DAY("DAY(S)"),
     MONTH("MONTH(S)");
 
@@ -9,7 +9,7 @@ enum class TimeFrequencyUnit(interval: String) {
             return listOf(DAY.name, MONTH.name)
         }
 
-        fun String.toTimeInterval(): TimeFrequencyUnit? {
+        fun String.toTimeActionUnit(): TimeFrequencyActionUnit? {
             return when (this) {
                 DAY.name -> DAY
                 MONTH.name -> MONTH

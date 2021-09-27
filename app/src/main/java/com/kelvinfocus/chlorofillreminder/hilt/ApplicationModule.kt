@@ -1,6 +1,7 @@
 package com.kelvinfocus.chlorofillreminder.hilt
 
 import android.content.Context
+import com.kelvinfocus.chlorofillreminder.util.SharedPrefManager
 import com.kelvinfocus.chlorofillreminder.util.TextResUtil
 import dagger.Module
 import dagger.Provides
@@ -15,4 +16,8 @@ object ApplicationModule {
     @Singleton
     @Provides
     fun providesTextResUtil(@ApplicationContext context: Context) = TextResUtil(context)
+
+    @Singleton
+    @Provides
+    fun providesSharedPrefManager(@ApplicationContext context: Context) = SharedPrefManager(context)
 }

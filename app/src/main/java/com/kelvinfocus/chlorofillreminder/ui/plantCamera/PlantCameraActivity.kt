@@ -6,7 +6,7 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import com.camerakit.CameraKitView
 import com.kelvinfocus.chlorofillreminder.databinding.ActivityPlantCameraBinding
-import com.kelvinfocus.chlorofillreminder.ui.BaseCameraActivity
+import com.kelvinfocus.chlorofillreminder.ui.base.BaseCameraActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
