@@ -15,5 +15,13 @@
     <fragment
         android:id="@+id/addPlantFragment"
         android:name="com.kelvinfocus.chlorofillreminder.ui.addplant.AddPlantFragment"
-        android:label="AddPlantFragment" />
+        android:label="AddPlantFragment" >
+        <action
+            android:id="@+id/action_addPlantFragment_to_plantCameraFragment"
+            app:destination="@id/plantCameraFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/plantCameraFragment"
+        android:name="com.kelvinfocus.chlorofillreminder.ui.plantCamera.PlantCameraFragment"
+        android:label="PlantCameraFragment" />
 </navigation>

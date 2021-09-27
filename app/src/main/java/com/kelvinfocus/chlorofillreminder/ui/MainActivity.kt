@@ -1,9 +1,12 @@
 package com.kelvinfocus.chlorofillreminder.ui
 
+import android.app.Activity
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.kelvinfocus.chlorofillreminder.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -20,7 +23,16 @@ class MainActivity : AppCompatActivity() {
 //            }
 //        }
     }
+
+    val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            result.data?.let { data ->
+                Timber.d("Data: ${data.extras?.getString("image_data")?.length ?: 0}")
+            }
+        }
+    }
 }
+
 
 //@Composable // handles the basic theming
 //fun MyApp(content: @Composable () -> Unit) {

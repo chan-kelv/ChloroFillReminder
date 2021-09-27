@@ -1,36 +1,84 @@
 package com.kelvinfocus.chlorofillreminder.ui.addplant
 
+import android.app.Activity
+import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.kelvinfocus.chlorofillreminder.R
 import com.kelvinfocus.chlorofillreminder.databinding.FragmentAddPlantBinding
 import com.kelvinfocus.chlorofillreminder.model.TimeFrequencyUnit
 import com.kelvinfocus.chlorofillreminder.model.TimeIntervals
+import com.kelvinfocus.chlorofillreminder.ui.plantCamera.PlantCameraActivity
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class AddPlantFragment : Fragment() {
     private lateinit var binding: FragmentAddPlantBinding
     private lateinit var addPlantVM: AddPlantViewModel
 
+    /* Must start before onStart I think? */
+    lateinit var cameraResultsIntentListener: ActivityResultLauncher<Intent>
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentAddPlantBinding.inflate(layoutInflater, container, false)
         val view = binding.root
 
         addPlantVM = ViewModelProvider(this).get(AddPlantViewModel::class.java)
 
-        setupViewData()
-        setupHandlers()
+        setupViewData() // remaining view properties to set
+        setupButtonHandlers() // button handlers
+        setupVmHandlers() // vm observables
+
+        setupCameraListener()
         return view
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        cameraResultsIntentListener.unregister()
+    }
+
+    private fun setupButtonHandlers() {
+        binding.plantPhoto.setOnClickListener {
+            cameraResultsIntentListener.launch(Intent(activity, PlantCameraActivity::class.java))
+        }
+
+        binding.saveNewPlantButton.setOnClickListener {
+            addPlantVM.newPlantValidCheck(
+                binding.waterAmountOfTimeInput.text.toString()
+            )
+        }
+    }
+
+    private fun setupCameraListener() {
+        cameraResultsIntentListener = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.let { data ->
+                    data.extras?.getString("image_data")?.let { imgString ->
+                        val imgArray = Base64.decode(imgString, Base64.DEFAULT)
+                        val imgBmp = BitmapFactory.decodeByteArray(imgArray, 0, imgArray.size)
+                        activity?.runOnUiThread {
+                            binding.plantPhoto.setImageBitmap(imgBmp)
+                        }
+                    }
+                    Timber.d("Data: ${data.extras?.getString("image_data")?.length ?: 0}")
+                }
+            }
+        }
     }
 
     private fun setupViewData() {
@@ -79,17 +127,22 @@ class AddPlantFragment : Fragment() {
         binding.fertilizerFrequencyUnit.setHint(R.string.no_time_unit)
     }
 
-    private fun setupHandlers() {
-        binding.saveNewPlantButton.setOnClickListener {
-            addPlantVM.newPlantValidCheck(
-                binding.waterAmountOfTimeInput.text.toString()
-            )
-        }
+//    val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//        if (result.resultCode == Activity.RESULT_OK) {
+//            result.data?.let { data ->
+//                Timber.d("Data: ${data.extras?.getString("image_data")?.length ?: 0}")
+//            }
+//        }
+//    }
+
+
+    private fun setupVmHandlers() {
         addPlantVM.waterScheduleInvalid.observe(viewLifecycleOwner) { invalidWaterFreq ->
             if (invalidWaterFreq) {
                 binding.waterAmountOfTimeInput.error = "Invalid number"
             }
         }
+
 
         addPlantVM.newPlantValid.observe(viewLifecycleOwner) { isValidPlant ->
             if (isValidPlant) {
