@@ -2,7 +2,6 @@ package com.kelvinfocus.chlorofillreminder.model
 
 import android.content.Context
 import android.os.Parcelable
-import android.widget.ImageView
 import androidx.room.ColumnInfo
 import androidx.room.Dao
 import androidx.room.Database
@@ -14,42 +13,44 @@ import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.kelvinfocus.chlorofillreminder.model.Plant.PlantDatabase.Companion.PLANT_TABLE_NAME
+import com.kelvinfocus.chlorofillreminder.model.TimeFrequencyUnit.Companion.toTimeInterval
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class Plant(var name: String,
-            var plantPhoto: String? = null,
-            var waterAmount: String,
-            var waterUnit: String,
-            var waterAlarm: String?,
-            var fertilizerAmount: String?,
-            var fertilizerUnit: String?,
-            var fertilizerAlarm: String?,
-            var plantNotes: String?): Parcelable {
-//    constructor(name: String,
-//                plantPhoto: ImageView?,
-//                waterAmount: String,
-//                waterUnit: String,
-//                waterAlarm: String?,
-//                fertilizerAmount: String?,
-//                fertilizerUnit: String?,
-//                fertilizerAlarm: String?,
-//                plantNotes: String?): this(name) {
-//            if (waterAmount != null && waterUnit != null) {
-//                setWaterAmt(waterAmount, waterUnit)
-//            }
-//            if (fertilizerAmount != null && fertilizerUnit != null) [
-//                setFertilizerAmt(fertilizerAmount, fertilizerUnit)
-//            ]
-//    }
+class Plant(
+    var name: String,
+    var plantPhoto: String? = null,
+    var waterAmount: String,
+    var waterUnit: String,
+    var waterAlarm: String?,
+    var fertilizerAmount: String?,
+    var fertilizerUnit: String?,
+    var fertilizerAlarm: String?,
+    var plantNotes: String?
+) : Parcelable {
+    var waterCareAction: CareAction? = null
+    var fertilizeCareAction: CareAction? = null
 
-    private fun setFertilizerAmt(fertilizerAmount: Unit, fertilizerUnit: Unit) {
-        TODO("Not yet implemented")
+    init {
+        setWaterAmt(waterAmount, waterUnit)
+        setFertilizerAmt(fertilizerAmount, fertilizerUnit)
     }
 
-    private fun setWaterAmt(waterAmount: String, waterUnit: String) {
-        TODO("Not yet implemented")
+    private fun setWaterAmt(waterAmount: String?, waterUnit: String?) {
+        val waterAmountInt = waterAmount?.toIntOrNull()
+        val waterFrequency = waterUnit?.toTimeInterval()
+        if (waterAmountInt != null && waterFrequency != null) {
+            waterCareAction = CareAction(waterAmountInt, waterFrequency)
+        }
+    }
+
+    private fun setFertilizerAmt(fertilizerAmount: String?, fertilizerUnit: String?) {
+        val fertilizeAmountInt = fertilizerAmount?.toIntOrNull()
+        val fertilizeFrequency = fertilizerUnit?.toTimeInterval()
+        if (fertilizeAmountInt != null && fertilizeFrequency != null) {
+            fertilizeCareAction = CareAction(fertilizeAmountInt, fertilizeFrequency)
+        }
     }
 
     @Entity
@@ -79,7 +80,7 @@ class Plant(var name: String,
     }
 
     @Database(entities = [PlantEntity::class], version = 1)
-    abstract class PlantDatabase: RoomDatabase() {
+    abstract class PlantDatabase : RoomDatabase() {
         abstract fun PlantDao(): PlantDao
 
         companion object {
@@ -87,7 +88,8 @@ class Plant(var name: String,
             const val PLANT_DATABASE_NAME = "PlantDatabase"
 
             fun createDbBuilder(
-                @ApplicationContext appContext: Context): Builder<PlantDatabase> {
+                @ApplicationContext appContext: Context
+            ): Builder<PlantDatabase> {
                 return Room.databaseBuilder(
                     appContext,
                     PlantDatabase::class.java,
