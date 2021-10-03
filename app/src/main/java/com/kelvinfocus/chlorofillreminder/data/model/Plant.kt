@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.kelvinfocus.chlorofillreminder.data.model.CareAction.Companion.toParceableString
+import com.kelvinfocus.chlorofillreminder.data.repository.PlantRepository
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -17,7 +18,7 @@ class Plant(
     var fertilizerAlarm: String?,
     var plantNotes: String?
 ) : Parcelable {
-    @Entity
+    @Entity(tableName = PlantRepository.PlantDatabase.PLANT_TABLE_NAME)
     data class PlantEntity(
         @ColumnInfo(name = "plant_name") var name: String,
         @ColumnInfo(name = "water_freq") var waterAction: String?,

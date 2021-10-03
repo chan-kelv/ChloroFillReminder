@@ -4,6 +4,7 @@ import android.widget.ImageView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kelvinfocus.chlorofillreminder.data.model.CareAction
 import com.kelvinfocus.chlorofillreminder.data.model.Plant
 import com.kelvinfocus.chlorofillreminder.data.model.TimeFrequencyActionUnit.Companion.toTimeActionUnit
@@ -11,6 +12,7 @@ import com.kelvinfocus.chlorofillreminder.data.repository.PlantRepository
 import com.kelvinfocus.chlorofillreminder.util.ImageConverter.to64ByteString
 import com.kelvinfocus.chlorofillreminder.util.SharedPrefManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -90,8 +92,9 @@ class AddPlantViewModel @Inject constructor(
             plantNotes
         )
 
-        plantRepo.savePlant(plant)
-        // TODO save plant to db
+        viewModelScope.launch {
+            plantRepo.savePlant(plant)
+        }
         // TODO set up alarms
     }
 
