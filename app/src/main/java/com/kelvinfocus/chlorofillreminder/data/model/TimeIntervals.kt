@@ -1,4 +1,4 @@
-package com.kelvinfocus.chlorofillreminder.model
+package com.kelvinfocus.chlorofillreminder.data.model
 
  class TimeIntervals {
     companion object {

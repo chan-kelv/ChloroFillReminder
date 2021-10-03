@@ -3,7 +3,7 @@ package com.kelvinfocus.chlorofillreminder.ui.landing
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.kelvinfocus.chlorofillreminder.model.Plant
+import com.kelvinfocus.chlorofillreminder.data.model.Plant
 
 class LandingViewModel: ViewModel() {
     private val _plantSchedule = MutableLiveData<MutableList<Plant>>()

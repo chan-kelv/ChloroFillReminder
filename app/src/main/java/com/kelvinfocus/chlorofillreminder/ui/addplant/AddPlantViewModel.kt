@@ -4,9 +4,10 @@ import android.widget.ImageView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.kelvinfocus.chlorofillreminder.model.CareAction
-import com.kelvinfocus.chlorofillreminder.model.Plant
-import com.kelvinfocus.chlorofillreminder.model.TimeFrequencyActionUnit
+import com.kelvinfocus.chlorofillreminder.data.model.CareAction
+import com.kelvinfocus.chlorofillreminder.data.model.Plant
+import com.kelvinfocus.chlorofillreminder.data.model.TimeFrequencyActionUnit.Companion.toTimeActionUnit
+import com.kelvinfocus.chlorofillreminder.data.repository.PlantRepository
 import com.kelvinfocus.chlorofillreminder.util.ImageConverter.to64ByteString
 import com.kelvinfocus.chlorofillreminder.util.SharedPrefManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddPlantViewModel @Inject constructor(
-    private var sharedPrefManager: SharedPrefManager
+    private val sharedPrefManager: SharedPrefManager,
+    private val plantRepo: PlantRepository
 ): ViewModel() {
     private val _newPlantValid = MutableLiveData<Boolean>()
     val newPlantValid: LiveData<Boolean> = _newPlantValid
@@ -51,10 +53,10 @@ class AddPlantViewModel @Inject constructor(
         plantPhoto: ImageView?,
         plantName: String?,
         waterFrequency: String,
-        waterFreqUnit: TimeFrequencyActionUnit,
+        waterFreqUnit: String,
         waterAlarm: String?,
         fertilizerFreq: String?,
-        fertilizerFreqUnit: TimeFrequencyActionUnit,
+        fertilizerFreqUnit: String,
         fertilizerAlarm: String?,
         plantNotes: String?
     ) {
@@ -65,8 +67,19 @@ class AddPlantViewModel @Inject constructor(
             "MyPlant $index"
         } else plantName
 
-        val waterAction = CareAction.toCareActionFromString(waterFrequency, waterFreqUnit) ?: return
-        val fertilizeAction = CareAction.toCareActionFromString(fertilizerFreq, fertilizerFreqUnit)
+        val waterAction = waterFreqUnit.toTimeActionUnit()?.let {
+            CareAction.toCareActionFromString(waterFrequency, it)
+        } ?: run {
+            Timber.e("Could not convert water time action")
+            return
+        }
+
+        // this one is optional so no need to error and return if empty
+        val fertilizeAction = fertilizerFreqUnit.toTimeActionUnit()?.let {
+            CareAction.toCareActionFromString(fertilizerFreq, it)
+        } ?: run { null }
+
+//        val fertilizeAction = CareAction.toCareActionFromString(fertilizerFreq, fertilizerFreqUnit)
         val plant = Plant(
             name = validPlantName,
             plantPhoto = plantPhoto?.to64ByteString(),
@@ -76,6 +89,8 @@ class AddPlantViewModel @Inject constructor(
             fertilizerAlarm,
             plantNotes
         )
+
+        plantRepo.savePlant(plant)
         // TODO save plant to db
         // TODO set up alarms
     }

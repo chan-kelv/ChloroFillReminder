@@ -14,9 +14,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.kelvinfocus.chlorofillreminder.R
+import com.kelvinfocus.chlorofillreminder.data.model.TimeFrequencyActionUnit
+import com.kelvinfocus.chlorofillreminder.data.model.TimeIntervals
 import com.kelvinfocus.chlorofillreminder.databinding.FragmentAddPlantBinding
-import com.kelvinfocus.chlorofillreminder.model.TimeFrequencyActionUnit
-import com.kelvinfocus.chlorofillreminder.model.TimeIntervals
 import com.kelvinfocus.chlorofillreminder.ui.plantCamera.PlantCameraActivity
 import dagger.hilt.android.AndroidEntryPoint
 

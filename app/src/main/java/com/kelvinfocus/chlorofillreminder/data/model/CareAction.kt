@@ -1,7 +1,7 @@
-package com.kelvinfocus.chlorofillreminder.model
+package com.kelvinfocus.chlorofillreminder.data.model
 
 import android.os.Parcelable
-import com.kelvinfocus.chlorofillreminder.model.TimeFrequencyActionUnit.Companion.toTimeActionUnit
+import com.kelvinfocus.chlorofillreminder.data.model.TimeFrequencyActionUnit.Companion.toTimeActionUnit
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -13,8 +13,8 @@ data class CareAction(var frequency: Int, var timeFreqUnit: TimeFrequencyActionU
     companion object {
         private const val CARE_DELIMITER = "__"
 
-        fun toParceableString(frequency: Int, interval: TimeFrequencyActionUnit): String {
-            return "$frequency$CARE_DELIMITER${interval.name}"
+        fun CareAction.toParceableString(): String {
+            return "${this.frequency}$CARE_DELIMITER${this.timeFreqUnit.name}"
         }
 
         fun toCareActionFromParcable(careString: String): CareAction? {

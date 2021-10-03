@@ -1,4 +1,4 @@
-package com.kelvinfocus.chlorofillreminder.model
+package com.kelvinfocus.chlorofillreminder.data.model
 
 enum class TimeFrequencyActionUnit(interval: String) {
     DAY("DAY(S)"),
