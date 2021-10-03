@@ -6,6 +6,7 @@ import androidx.room.Dao
 import androidx.room.Database
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -30,8 +31,14 @@ class PlantRepository @Inject constructor(
         @Query("SELECT * FROM $PLANT_TABLE_NAME")
         suspend fun getAll(): List<Plant.PlantEntity>
 
-        @Insert
-        suspend fun insertPlant(plant: Plant.PlantEntity)
+        /**
+         * Saves a plant entity into the db
+         * @return the id of the successful insert
+         */
+        @Insert (onConflict = OnConflictStrategy.ABORT)
+        suspend fun insertPlant(plant: Plant.PlantEntity): Boolean {
+            return plant.id > -1
+        }
 
         @Delete
         suspend fun deletePlant(plant: Plant.PlantEntity)

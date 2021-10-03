@@ -21,17 +21,23 @@ class AddPlantViewModel @Inject constructor(
     private val sharedPrefManager: SharedPrefManager,
     private val plantRepo: PlantRepository
 ): ViewModel() {
+    /**
+     * Tracks if the plant was saved successfully to the db
+     */
+    private val _saveSuccess = MutableLiveData<Boolean>()
+    val saveSuccess: LiveData<Boolean> = _saveSuccess
+
+    /**
+     * Tracks if the ENTIRE form was filled in correctly
+     */
     private val _newPlantValid = MutableLiveData<Boolean>()
     val newPlantValid: LiveData<Boolean> = _newPlantValid
 
-//    private val _plantNameInvalid = MutableLiveData<Boolean>()
-//    val plantNameInvalid: LiveData<Boolean> = _plantNameInvalid
-
+    /**
+     * Tracks if the water schedule was incomplete
+     */
     private val _waterScheduleInvalid = MutableLiveData<Boolean>()
     val waterScheduleInvalid: LiveData<Boolean> = _waterScheduleInvalid
-//
-//    private val _fertilizerScheduleInvalid = MutableLiveData<Boolean>()
-//    val fertilizerScheduleInvalid: LiveData<Boolean> = _fertilizerScheduleInvalid
 
     fun newPlantValidCheck(
         waterAmount: String?
@@ -81,7 +87,6 @@ class AddPlantViewModel @Inject constructor(
             CareAction.toCareActionFromString(fertilizerFreq, it)
         } ?: run { null }
 
-//        val fertilizeAction = CareAction.toCareActionFromString(fertilizerFreq, fertilizerFreqUnit)
         val plant = Plant(
             name = validPlantName,
             plantPhoto = plantPhoto?.to64ByteString(),
