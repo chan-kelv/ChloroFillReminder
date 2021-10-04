@@ -17,8 +17,10 @@ import com.kelvinfocus.chlorofillreminder.R
 import com.kelvinfocus.chlorofillreminder.data.model.TimeFrequencyActionUnit
 import com.kelvinfocus.chlorofillreminder.data.model.TimeIntervals
 import com.kelvinfocus.chlorofillreminder.databinding.FragmentAddPlantBinding
+import com.kelvinfocus.chlorofillreminder.ui.notification.PlantNotification
 import com.kelvinfocus.chlorofillreminder.ui.plantCamera.PlantCameraActivity
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AddPlantFragment : Fragment() {
@@ -27,6 +29,8 @@ class AddPlantFragment : Fragment() {
 
     /* Must start before onStart I think? */
     lateinit var cameraResultsIntentListener: ActivityResultLauncher<Intent>
+
+    @Inject lateinit var plantNotificaiton: PlantNotification
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,6 +66,12 @@ class AddPlantFragment : Fragment() {
             addPlantVM.newPlantValidCheck(
                 binding.waterAmountOfTimeInput.text.toString()
             )
+        }
+
+        binding.waterAlarmImage.setOnClickListener {
+            activity?.runOnUiThread {
+                plantNotificaiton.showNotification(requireContext(), 123)
+            }
         }
     }
 

@@ -1,6 +1,8 @@
 package com.kelvinfocus.chlorofillreminder.hilt
 
+import android.app.NotificationChannel
 import android.content.Context
+import com.kelvinfocus.chlorofillreminder.ui.notification.PlantNotification
 import com.kelvinfocus.chlorofillreminder.util.SharedPrefManager
 import com.kelvinfocus.chlorofillreminder.util.TextResUtil
 import dagger.Module
@@ -20,4 +22,10 @@ object ApplicationModule {
     @Singleton
     @Provides
     fun providesSharedPrefManager(@ApplicationContext context: Context) = SharedPrefManager(context)
+
+    @Singleton
+    @Provides
+    fun providesNotificationChannelsToRegister(): List<NotificationChannel> = listOfNotNull(
+        PlantNotification.channelToRegister()
+    )
 }
